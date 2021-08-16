@@ -21,13 +21,6 @@ namespace Alertas.Controllers
             _hubContext = hubContext;
         }
 
-        [Route("grupo")]
-        [HttpGet]
-        public async Task<IActionResult> JoinGroup(string grupo)
-        {
-            await _hubContext.Groups.AddToGroupAsync("JoinGroup", grupo);
-            return Ok();
-        }
 
         [Route("grupo")]
         [HttpPost]
