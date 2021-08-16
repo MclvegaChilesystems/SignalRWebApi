@@ -1,0 +1,70 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div>
+    <table>
+        <tbody>
+            <tr>
+                <td>grupo</td>
+                <td><input type="text" id="txt_grupo" placeholder="ingrese grupo" required /></td>
+                <td><button type="button" onclick="obtener()" value="Guardar"> Guardar</button></td>
+                <td><label id="lbl_grupo"></label></td>
+            </tr>
+            
+        </tbody>
+    </table>
+</div>
+<div id="divAlertas">
+
+</div>
+
+<script src="~/lib/microsoft/signalr/dist/browser/signalr.js"></script>
+
+
+
+
+
+<script>
+    
+    function obtener() {
+        var grupo = document.getElementById("txt_grupo");
+        document.getElementById("lbl_grupo").innerText = grupo.value;
+        var connection = new signalR.HubConnectionBuilder().withUrl("https://localhost:44313/alertahub").build();
+        connection.start().then(function () {
+            connection.invoke("JoinGroup", grupo.value).catch(err => {
+                console.log(err);
+            });
+            console.log("Conexion exitosa");
+        }).catch(function (err) {
+            console.error(err);
+        });
+        connection.on("usuariosActivos", function (contador) {
+            var divAlerta = document.createElement("div");
+            divAlerta.textContent = "Usuarios Activos " + contador;
+            document.getElementById("divAlertas").appendChild(divAlerta);
+        })
+        connection.on("unido", function (grupo) {
+            var divAlerta = document.createElement("div");
+            divAlerta.textContent = "Se creo el grupo " + grupo;
+            document.getElementById("divAlertas").appendChild(divAlerta);
+        })
+        connection.on("alertasGlobales", function (tipo, mensaje, receptor, fecha, grupo) {
+            var f = new Date(fecha);
+            console.log("Grupo " + grupo + "Tipo : " + tipo + " - Mensaje: " + mensaje + " -  Receptor: " + receptor + " - " + f.toLocaleDateString());
+            var divAlerta = document.createElement("div");
+            divAlerta.textContent = "Grupo: " + grupo + ", Tipo: " + tipo + ", Mensaje: " + mensaje + ", Receptor: " + receptor + ", Fecha: " + f.toLocaleDateString();
+            document.getElementById("divAlertas").appendChild(divAlerta);
+        })
+        connection.on("alertasGrupo", function (tipo, mensaje, receptor, fecha, grupo) {
+            var f = new Date(fecha);
+            console.log("Grupo " + grupo + "Tipo : " + tipo + " - Mensaje: " + mensaje + " -  Receptor: " + receptor + " - " + f.toLocaleDateString());
+            var divAlerta = document.createElement("div");
+            divAlerta.textContent = "Grupo: " + grupo + ", Tipo: " + tipo + ", Mensaje: " + mensaje + ", Receptor: " + receptor + ", Fecha: " + f.toLocaleDateString();
+            document.getElementById("divAlertas").appendChild(divAlerta);
+        })
+        return grupo.value;
+    }
+
+    
+</script>

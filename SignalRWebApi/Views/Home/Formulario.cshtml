@@ -1,0 +1,8 @@
+﻿@model SignalRWebApi.Models.Usuario
+
+<form asp-controller="Home" asp-action="Agregar" method="post" >
+    Nombre: <input asp-for="nombre" type="text" /><br />
+    Edad: <input asp-for="edad" type="text" /><br />
+    <button type="submit">Enviar</button>
+
+</form>
