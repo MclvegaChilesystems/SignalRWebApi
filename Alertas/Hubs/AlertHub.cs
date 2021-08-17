@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Alertas.Hubs
 {
-    public class AlertaHub : Hub
+    public class AlertHub :Hub
     {
         public static int counter = 0;
         public override Task OnConnectedAsync()
@@ -27,11 +27,9 @@ namespace Alertas.Hubs
         {
             foreach (var item in groupNames)
             {
-
                 await Groups.AddToGroupAsync(Context.ConnectionId, item);
-                await Clients.OthersInGroup(item).SendAsync("JoinGroupName", item);
+                await Clients.OthersInGroup(item).SendAsync("joinGroupName", item);
             }
-
         }
 
         public async Task ExitGroup(string groupName)
@@ -50,7 +48,7 @@ namespace Alertas.Hubs
             {
                 await Clients.OthersInGroup(item).SendAsync("groupAlerts", alertType, message, groupNames);
             }
-            
+
         }
     }
 }

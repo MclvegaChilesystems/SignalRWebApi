@@ -13,11 +13,11 @@ namespace Alertas.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AlertaController : ControllerBase
+    public class AlertController : ControllerBase
     {
-        private IHubContext<AlertaHub> _hubContext;
+        private IHubContext<AlertHub> _hubContext;
 
-        public AlertaController(IHubContext<AlertaHub> hubContext)
+        public AlertController(IHubContext<AlertHub> hubContext)
         {
             _hubContext = hubContext;
         }

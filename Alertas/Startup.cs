@@ -28,7 +28,7 @@ namespace Alertas
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors(options => {
-                options.AddPolicy("todos",
+                options.AddPolicy("all",
                     builder => {
                         builder.AllowAnyHeader()
                         .AllowAnyMethod()
@@ -57,7 +57,7 @@ namespace Alertas
             }
 
             app.UseHttpsRedirection();
-            app.UseCors("todos");
+            app.UseCors("all");
             app.UseRouting();
 
             app.UseAuthorization();
@@ -65,7 +65,7 @@ namespace Alertas
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapHub<AlertaHub>("/alertahub");
+                endpoints.MapHub<AlertHub>("/alertahub");
             });
         }
     }

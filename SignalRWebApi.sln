@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31424.327
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SignalRWebApi", "SignalRWebApi\SignalRWebApi.csproj", "{54CC32E3-7CA3-46BE-8A19-BC785054CC2B}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Alertas", "Alertas\Alertas.csproj", "{D9E1607C-135B-4553-8E78-122218D2134D}"
 EndProject
 Global
@@ -13,10 +11,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{54CC32E3-7CA3-46BE-8A19-BC785054CC2B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{54CC32E3-7CA3-46BE-8A19-BC785054CC2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{54CC32E3-7CA3-46BE-8A19-BC785054CC2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{54CC32E3-7CA3-46BE-8A19-BC785054CC2B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D9E1607C-135B-4553-8E78-122218D2134D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D9E1607C-135B-4553-8E78-122218D2134D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D9E1607C-135B-4553-8E78-122218D2134D}.Release|Any CPU.ActiveCfg = Release|Any CPU
