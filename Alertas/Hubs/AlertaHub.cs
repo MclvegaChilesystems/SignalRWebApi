@@ -48,7 +48,7 @@ namespace Alertas.Hubs
         {
             foreach (var item in groupNames)
             {
-                await Clients.OthersInGroup(item).SendAsync("groupAlerts", alertType, message, groupNames);
+                await Clients.Groups(item).SendAsync("groupAlerts", alertType, message, groupNames);
             }
             
         }
