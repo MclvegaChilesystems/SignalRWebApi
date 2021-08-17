@@ -3,6 +3,7 @@ using Alertas.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,20 +23,20 @@ namespace Alertas.Controllers
         }
 
 
-        [Route("grupo")]
+        [Route("groupAlerts")]
         [HttpPost]
-        public async Task<IActionResult> AlertasGrupo(Alerta alertas)
+        public async Task<IActionResult> GroupAlerts(Alert alert)
         {
-            await _hubContext.Clients.Group(alertas.Grupo).SendAsync("alertasGrupo", alertas.Tipo, alertas.Mensaje, alertas.Receptor, DateTime.Now, alertas.Grupo);
+            await _hubContext.Clients.Groups(alert.Groups).SendAsync("groupAlerts", alert.AlertType, alert.Message, alert.Groups);
             return Ok();
 
         }
 
-        [Route("global")]
+        [Route("globalAlerts")]
         [HttpPost]
-        public async Task<IActionResult> AlertasGlobales(Alerta alertas)
+        public async Task<IActionResult> GlobalAlerts(Alert alert)
         {
-            await _hubContext.Clients.All.SendAsync("alertasGlobales", alertas.Tipo, alertas.Mensaje, alertas.Receptor, DateTime.Now, alertas.Grupo);
+            await _hubContext.Clients.All.SendAsync("globalAlerts", alert.AlertType, alert.Message, alert.Groups);
             return Ok();
         }
     }

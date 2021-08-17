@@ -8,42 +8,45 @@ namespace Alertas.Hubs
 {
     public class AlertaHub : Hub
     {
-        public static int contador = 0;
+        public static int counter = 0;
         public override Task OnConnectedAsync()
         {
-            contador = contador + 1;
-            Clients.All.SendAsync("usuariosActivos",contador);
+            counter = counter + 1;
+            Clients.All.SendAsync("activeUsers", counter);
             return base.OnConnectedAsync();
         }
 
         public override Task OnDisconnectedAsync(Exception exception)
         {
-            contador = contador - 1;
-            Clients.All.SendAsync("usuariosActivos",contador);
+            counter = counter - 1;
+            Clients.All.SendAsync("activeUsers", counter);
             return base.OnDisconnectedAsync(exception);
         }
 
-        public async Task JoinGroup(string grupo)
+        public async Task JoinGroup(List<string> groupNames)
         {
-            await Groups.AddToGroupAsync(Context.ConnectionId, grupo); 
-            await Clients.All.SendAsync("unido", grupo);
+            foreach (var item in groupNames)
+            {
+
+                await Groups.AddToGroupAsync(Context.ConnectionId, item);
+                await Clients.OthersInGroup(item).SendAsync("JoinGroupName", item);
+            }
+
         }
 
-        public async Task ExitGroup(string nombre)
+        public async Task ExitGroup(string groupName)
         {
-            await Groups.RemoveFromGroupAsync(Context.ConnectionId, nombre);
+            await Groups.RemoveFromGroupAsync(Context.ConnectionId, groupName);
         }
 
-
-        public async Task EnviarAlertaGlobal(string tipo, string mensaje, string receptor, DateTime fecha, string grupo)
+        public async Task SendGlobalAlerts(string alertType, string message, List<string> groupNames)
         {
-            await Clients.All.SendAsync("alertasGlobales", tipo, mensaje, receptor, fecha, grupo);
+            await Clients.All.SendAsync("globalAlerts", alertType, message, groupNames);
         }
 
-
-        public async Task EnviarAlertaGrupo(string tipo, string mensaje, string receptor, DateTime fecha, string grupo)
+        public async Task SendGroupAlerts(string alertType, string message, List<string> groupNames)
         {
-            await Clients.Group(grupo).SendAsync("alertasGrupo", tipo, mensaje, receptor, fecha, grupo);
+            await Clients.Groups(groupNames).SendAsync("groupAlerts", alertType, message, groupNames);
         }
     }
 }

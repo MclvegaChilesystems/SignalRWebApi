@@ -8,7 +8,8 @@
             <tr>
                 <td>grupo</td>
                 <td><input type="text" id="txt_grupo" placeholder="ingrese grupo" required /></td>
-                <td><button type="button" onclick="obtener()" value="Guardar"> Guardar</button></td>
+                <td><button type="button" onclick="AgregarGrupos()" > Agregar a grupos</button></td>
+                <td><button type="button" onclick="obtener()" > Ingresar</button></td>
                 <td><label id="lbl_grupo"></label></td>
             </tr>
             
@@ -26,45 +27,49 @@
 
 
 <script>
-    
+    let grupos = [];
     function obtener() {
         var grupo = document.getElementById("txt_grupo");
         document.getElementById("lbl_grupo").innerText = grupo.value;
         var connection = new signalR.HubConnectionBuilder().withUrl("https://localhost:44313/alertahub").build();
         connection.start().then(function () {
-            connection.invoke("JoinGroup", grupo.value).catch(err => {
+            connection.invoke("JoinGroup", grupos).catch(err => {
                 console.log(err);
             });
             console.log("Conexion exitosa");
         }).catch(function (err) {
             console.error(err);
         });
-        connection.on("usuariosActivos", function (contador) {
+        connection.on("activeUsers", function (counter) {
             var divAlerta = document.createElement("div");
-            divAlerta.textContent = "Usuarios Activos " + contador;
+            divAlerta.textContent = "Usuarios Activos " + counter;
             document.getElementById("divAlertas").appendChild(divAlerta);
         })
-        connection.on("unido", function (grupo) {
+        connection.on("JoinGroupName", function (groupNames) {
             var divAlerta = document.createElement("div");
-            divAlerta.textContent = "Se creo el grupo " + grupo;
+            divAlerta.textContent = "Se han unido al grupo " + groupNames;
             document.getElementById("divAlertas").appendChild(divAlerta);
         })
-        connection.on("alertasGlobales", function (tipo, mensaje, receptor, fecha, grupo) {
-            var f = new Date(fecha);
-            console.log("Grupo " + grupo + "Tipo : " + tipo + " - Mensaje: " + mensaje + " -  Receptor: " + receptor + " - " + f.toLocaleDateString());
+        connection.on("globalAlerts", function (alertType, message, to, date, groupNames) {
+            var f = new Date(date);
+            console.log("Grupo " + groupNames + "Tipo : " + alertType + " - Mensaje: " + mensaje + " -  Receptor: " + to + " - " + f.toLocaleDateString());
             var divAlerta = document.createElement("div");
-            divAlerta.textContent = "Grupo: " + grupo + ", Tipo: " + tipo + ", Mensaje: " + mensaje + ", Receptor: " + receptor + ", Fecha: " + f.toLocaleDateString();
+            divAlerta.textContent = "Grupo: " + groupNames + ", Tipo: " + alertType + ", Mensaje: " + message + ", Receptor: " + to + ", Fecha: " + f.toLocaleDateString();
             document.getElementById("divAlertas").appendChild(divAlerta);
         })
-        connection.on("alertasGrupo", function (tipo, mensaje, receptor, fecha, grupo) {
-            var f = new Date(fecha);
-            console.log("Grupo " + grupo + "Tipo : " + tipo + " - Mensaje: " + mensaje + " -  Receptor: " + receptor + " - " + f.toLocaleDateString());
+        connection.on("groupAlerts", function (alertType, message, to, date, groupNames) {
+            var f = new Date(date);
+            console.log("Grupo " + groupNames + "Tipo : " + alertType + " - Mensaje: " + message + " -  Receptor: " + to + " - " + f.toLocaleDateString());
             var divAlerta = document.createElement("div");
-            divAlerta.textContent = "Grupo: " + grupo + ", Tipo: " + tipo + ", Mensaje: " + mensaje + ", Receptor: " + receptor + ", Fecha: " + f.toLocaleDateString();
+            divAlerta.textContent = "Grupo: " + groupNames + ", Tipo: " + alertType + ", Mensaje: " + message + ", Receptor: " + to + ", Fecha: " + f.toLocaleDateString();
             document.getElementById("divAlertas").appendChild(divAlerta);
         })
         return grupo.value;
     }
 
-    
+    function AgregarGrupos() {
+        var grupo = document.getElementById("txt_grupo");
+        document.getElementById("lbl_grupo").innerText = grupo.value;
+        grupos.push(grupo.value);
+    }
 </script>
