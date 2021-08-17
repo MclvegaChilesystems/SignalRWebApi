@@ -65,7 +65,7 @@ namespace Alertas
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapHub<AlertHub>("/alertahub");
+                endpoints.MapHub<AlertHub>("/alerthub");
             });
         }
     }
