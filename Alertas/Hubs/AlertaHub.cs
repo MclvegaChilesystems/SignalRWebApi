@@ -46,7 +46,11 @@ namespace Alertas.Hubs
 
         public async Task SendGroupAlerts(string alertType, string message, List<string> groupNames)
         {
-            await Clients.Groups(groupNames).SendAsync("groupAlerts", alertType, message, groupNames);
+            foreach (var item in groupNames)
+            {
+                await Clients.OthersInGroup(item).SendAsync("groupAlerts", alertType, message, groupNames);
+            }
+            
         }
     }
 }
