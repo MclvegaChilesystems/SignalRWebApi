@@ -52,16 +52,13 @@
         })
         connection.on("globalAlerts", function (alertType, message, groupNames) {
             var divAlerta = document.createElement("div");
-            divAlerta.textContent = "Grupo: " + groupNames + ", Tipo: " + alertType + ", Mensaje: " + message;
+            divAlerta.textContent = "Tipo de Alerta: " + alertType + ", Mensaje: " + message;
             document.getElementById("divAlertas").appendChild(divAlerta);
         })
         connection.on("groupAlerts", function (alertType, message, groupNames) {
-            groupNames.forEach(item => {
-                var divAlerta = document.createElement("div");
-                divAlerta.textContent = "Grupo: " + item + ", Tipo: " + alertType + ", Mensaje: " + message;
-                document.getElementById("divAlertas").appendChild(divAlerta);
-
-            })
+            var divAlerta = document.createElement("div");
+            divAlerta.textContent = " Tipo de Alerta: " + alertType + ", Mensaje: " + message;
+            document.getElementById("divAlertas").appendChild(divAlerta);
             
         })
         return grupo.value;

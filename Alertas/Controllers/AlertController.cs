@@ -27,7 +27,7 @@ namespace Alertas.Controllers
         [HttpPost]
         public async Task<IActionResult> GroupAlerts(Alert alert)
         {
-            await _hubContext.Clients.Groups(alert.Groups).SendAsync("groupAlerts", alert.AlertType, alert.Message, alert.Groups);
+            await _hubContext.Clients.Groups(alert.Groups).SendAsync("groupAlerts", alert.AlertType, alert.AlertTitle, alert.Message, alert.Groups);
             return Ok();
 
         }
@@ -36,7 +36,7 @@ namespace Alertas.Controllers
         [HttpPost]
         public async Task<IActionResult> GlobalAlerts(Alert alert)
         {
-            await _hubContext.Clients.All.SendAsync("globalAlerts", alert.AlertType, alert.Message, alert.Groups);
+            await _hubContext.Clients.All.SendAsync("globalAlerts", alert.AlertType, alert.AlertTitle, alert.Message, alert.Groups);
             return Ok();
         }
     }
