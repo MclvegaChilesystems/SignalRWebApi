@@ -39,16 +39,16 @@ namespace Alertas.Hubs
             await Groups.RemoveFromGroupAsync(Context.ConnectionId, groupName);
         }
 
-        public async Task SendGlobalAlerts(string alertType, string message, List<string> groupNames)
+        public async Task SendGlobalAlerts(string alertType, string alertTitle, string message, List<string> groupNames)
         {
-            await Clients.All.SendAsync("globalAlerts", alertType, message, groupNames);
+            await Clients.All.SendAsync("globalAlerts", alertType, alertTitle, message, groupNames);
         }
 
-        public async Task SendGroupAlerts(string alertType, string message, List<string> groupNames)
+        public async Task SendGroupAlerts(string alertType, string alertTitle, string message, List<string> groupNames)
         {
             foreach (var item in groupNames)
             {
-                await Clients.Groups(item).SendAsync("groupAlerts", alertType, message, groupNames);
+                await Clients.Groups(item).SendAsync("groupAlerts", alertType, alertTitle, message, groupNames);
             }
             
         }
