@@ -32,6 +32,13 @@ namespace Alertas.Controllers
 
         }
 
+        [Route("test")]
+        [HttpGet]
+        public async Task<IActionResult> Test()
+        {
+            return Ok();
+        }
+
         [Route("globalAlerts")]
         [HttpPost]
         public async Task<IActionResult> GlobalAlerts(Alert alert)
