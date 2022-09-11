@@ -31,9 +31,10 @@
     function obtener() {
         var grupo = document.getElementById("txt_grupo");
         document.getElementById("lbl_grupo").innerText = grupo.value;
-        //var connection = new signalR.HubConnectionBuilder().withUrl("https://alerthub.cerrodominador.chilesystems.com/alertahub").build();
+        //var connection = new signalR.HubConnectionBuilder().withUrl("https://alerthub-desa.onvision.chilesystems.com/alertahub").build();
         var connection = new signalR.HubConnectionBuilder().withUrl("https://localhost:44313/alertahub").build();
         connection.start().then(function () {
+            console.log(grupos);
             connection.invoke("JoinGroup", grupos).catch(err => {
                 console.log(err);
             });
@@ -58,7 +59,7 @@
         })
         connection.on("groupAlerts", function (alertType, alertTitle, message, groupNames) {
             var divAlerta = document.createElement("div");
-            divAlerta.textContent = "Tipo de Alerta: " + alertType + ", Titulo: " + alertTitle + ", Mensaje: " + message;
+            divAlerta.textContent = "Tipo de Alerta: " + alertType + ", Titulooo: " + alertTitle + ", Mensaje: " + message;
             document.getElementById("divAlertas").appendChild(divAlerta);
             
         })
@@ -68,6 +69,10 @@
     function AgregarGrupos() {
         var grupo = document.getElementById("txt_grupo");
         document.getElementById("lbl_grupo").innerText = grupo.value;
+        var x = "85CB8D4C-9013-4121-BC46-93D9DC88AED5";
+        var y = "AB2769D5-B925-4720-C510-08D8F37DE783"
         grupos.push(grupo.value);
+        grupos.push(x);
+        grupos.push(y);
     }
 </script>
